@@ -58,7 +58,7 @@ public class DailyMotionSample {
   /** OAuth 2 scope. */
 //  private static final String SCOPE = "read";
 //  private static final String SCOPE = "read";
-  private static final String[] SCOPE = new String[]{"openid"};
+  private static final String[] SCOPE = new String[]{"openid", "email"};
 
   
   /** Global instance of the HTTP transport. */
@@ -100,6 +100,8 @@ public class DailyMotionSample {
 	    HttpRequest request = requestFactory.buildGetRequest(url);
 	    HttpResponse response = request.execute();
 	    System.out.println("und iatz ? " + response.getStatusCode());
+	    new TokenService().getToken(request);
+	    new TokenService().printResponseHeaders(response);
 //	    VideoFeed videoFeed = request.execute().parseAs(VideoFeed.class);
 //	    if (videoFeed.list.isEmpty()) {
 //	      System.out.println("No favorite videos found.");
