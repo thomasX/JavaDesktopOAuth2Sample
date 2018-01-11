@@ -19,6 +19,12 @@
 		    <version>1.23.0</version>
 		</dependency>
 				
+		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-plus -->
+		<dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-plus</artifactId>
+		    <version>v1-rev64-1.13.2-beta</version>
+		</dependency>
 				
 		
   </dependencies>

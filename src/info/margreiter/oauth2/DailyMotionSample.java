@@ -68,10 +68,10 @@ public class DailyMotionSample {
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
 //  private static final String TOKEN_SERVER_URL = "https://api.dailymotion.com/oauth/token";
-  private static final String TOKEN_SERVER_URL = "https://accounts.google.com/o/oauth2/token";
+  private static final String TOKEN_SERVER_URL = "https://accounts.google.com/o/oauth2/v4/token";
 
 //  private static final String AUTHORIZATION_SERVER_URL ="https://api.dailymotion.com/oauth/authorize";
-  private static final String AUTHORIZATION_SERVER_URL ="https://accounts.google.com/o/oauth2/auth";
+  private static final String AUTHORIZATION_SERVER_URL ="https://accounts.google.com/o/oauth2/v2/auth";
 
   /** Authorizes the installed application to access user's protected data. */
   private static Credential authorize() throws Exception {
@@ -87,6 +87,7 @@ public class DailyMotionSample {
         OAuth2ClientCredentials.API_KEY,
         AUTHORIZATION_SERVER_URL).setScopes(Arrays.asList( SCOPE))
         .setDataStoreFactory(DATA_STORE_FACTORY).build();
+        
     // authorize
     LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost(
         OAuth2ClientCredentials.DOMAIN).setPort(OAuth2ClientCredentials.PORT).build();
@@ -99,6 +100,12 @@ public class DailyMotionSample {
 
 	    HttpRequest request = requestFactory.buildGetRequest(url);
 	    HttpResponse response = request.execute();
+	    
+	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v3/userinfo");
+	    IdentityURL idURL = new  IdentityURL("https://accounts.google.com/.well-known/openid-configuration");
+	    HttpRequest idRequest = requestFactory.buildGetRequest(userInfo);
+	    HttpResponse idResponse = idRequest.execute();
+	    System.out.println(idResponse);
 	    System.out.println("und iatz ? " + response.getStatusCode());
 	    new TokenService().getToken(request);
 	    new TokenService().printResponseHeaders(response);
