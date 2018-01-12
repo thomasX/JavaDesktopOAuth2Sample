@@ -1,10 +1,14 @@
 package info.margreiter.oauth2;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
 
+import com.cedarsoftware.util.io.JsonObject;
+import com.cedarsoftware.util.io.JsonReader;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
@@ -37,11 +41,29 @@ public class TokenService {
 	        }
 	        return token;
 	}
-	public  void printResponseHeaders(HttpResponse httpRequest) throws IOException {
-	      String token = null;
+	public  void printResponse(HttpResponse httpRequest) throws IOException {
 	        HttpHeaders headers = httpRequest.getHeaders();
 	        System.out.println("ResponseHeaders: " + headers.toString());
+	       System.out.println(httpRequest.getContentEncoding());
+	       System.out.println(httpRequest.getContentType());
+//	       System.out.println(httpRequest.getContent());
 	       
+//	       IOUtils.toString(httpRequest.getContent(), "UTF-8");
+	       
+	       String jsonString = IOUtils.toString(httpRequest.getContent());
+	       System.out.println("jsionString" + jsonString);
+	       JsonReader dtoReader = new JsonReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)));
+	       JsonObject json = (JsonObject) dtoReader.readObject();
+	       
+	       System.out.println(" soooooooo: " + httpRequest.getContent());
+		    System.out.println("UI:             "+json.get("email"));
+		    System.out.println(dtoReader);
+	}
+	public  String getEmailAddress(HttpResponse httpRequest) throws IOException {
+		String jsonString = IOUtils.toString(httpRequest.getContent());
+		JsonReader dtoReader = new JsonReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)));
+		JsonObject json = (JsonObject) dtoReader.readObject();
+		return (String) json.get("email");
 	}
 	
 }

@@ -14,12 +14,15 @@
 
 package info.margreiter.oauth2;
 
+import com.cedarsoftware.util.io.JsonObject;
+import com.cedarsoftware.util.io.JsonReader;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -33,7 +36,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 
@@ -58,7 +63,11 @@ public class DailyMotionSample {
   /** OAuth 2 scope. */
 //  private static final String SCOPE = "read";
 //  private static final String SCOPE = "read";
-  private static final String[] SCOPE = new String[]{"openid", "email"};
+  private static final String[] SCOPE = new String[]{"openid",
+		  };
+//  "email", 
+//  "https://www.googleapis.com/auth/userinfo.email"
+//  "profile",
 
   
   /** Global instance of the HTTP transport. */
@@ -68,10 +77,12 @@ public class DailyMotionSample {
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
 //  private static final String TOKEN_SERVER_URL = "https://api.dailymotion.com/oauth/token";
-  private static final String TOKEN_SERVER_URL = "https://accounts.google.com/o/oauth2/v4/token";
+//  private static final String TOKEN_SERVER_URL = "https://accounts.google.com/o/oauth2/v4/token";
+  private static final String TOKEN_SERVER_URL = "https://accounts.google.com/o/oauth2/token";
 
 //  private static final String AUTHORIZATION_SERVER_URL ="https://api.dailymotion.com/oauth/authorize";
-  private static final String AUTHORIZATION_SERVER_URL ="https://accounts.google.com/o/oauth2/v2/auth";
+//  private static final String AUTHORIZATION_SERVER_URL ="https://accounts.google.com/o/oauth2/v2/auth";
+  private static final String AUTHORIZATION_SERVER_URL ="https://accounts.google.com/o/oauth2/auth";
 
   /** Authorizes the installed application to access user's protected data. */
   private static Credential authorize() throws Exception {
@@ -101,14 +112,21 @@ public class DailyMotionSample {
 	    HttpRequest request = requestFactory.buildGetRequest(url);
 	    HttpResponse response = request.execute();
 	    
-	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v3/userinfo");
-	    IdentityURL idURL = new  IdentityURL("https://accounts.google.com/.well-known/openid-configuration");
+	    System.out.println("und iatz ? " + response.getStatusCode());
+	    System.out.println("TOKEN-REQUEST:");
+	    new TokenService().getToken(request);
+	    
+	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
 	    HttpRequest idRequest = requestFactory.buildGetRequest(userInfo);
 	    HttpResponse idResponse = idRequest.execute();
-	    System.out.println(idResponse);
-	    System.out.println("und iatz ? " + response.getStatusCode());
-	    new TokenService().getToken(request);
-	    new TokenService().printResponseHeaders(response);
+	    System.out.println("ID-REQUEST:");
+//	    new TokenService().getToken(idRequest);
+	    new TokenService().printResponse(idResponse);
+	  
+	    
+	    
+	    
+//	    new TokenService().printResponse(response);
 //	    VideoFeed videoFeed = request.execute().parseAs(VideoFeed.class);
 //	    if (videoFeed.list.isEmpty()) {
 //	      System.out.println("No favorite videos found.");
@@ -126,6 +144,16 @@ public class DailyMotionSample {
 //	        System.out.println("URL: " + video.url);
 //	      }
 	  System.out.println("alles perfekt !");
+	  
+	  
+//	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+//	    HttpRequest idRequest = requestFactory.buildGetRequest(userInfo);
+//	    HttpResponse idResponse = idRequest.execute();
+//	    System.out.println("ID-REQUEST:");
+//	    new TokenService().getToken(idRequest);
+//	    new TokenService().printResponse(idResponse);
+//	    System.out.println(idResponse);
+
   }
   private static void run2(HttpRequestFactory requestFactory) throws IOException {
 	  
