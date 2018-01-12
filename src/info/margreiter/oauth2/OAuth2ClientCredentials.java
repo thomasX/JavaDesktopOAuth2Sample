@@ -38,7 +38,7 @@ public class OAuth2ClientCredentials {
   public static final String API_SECRET = "7eRlow7c7oHOU6iw0_RtVVQy";
 
   /** Port in the "Callback URL". */
-  public static final int PORT = 8983;
+  public static final int PORT = 8080;
 
   /** Domain name in the "Callback URL". */
   public static final String DOMAIN = "127.0.0.1";
