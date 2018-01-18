@@ -1,4 +1,4 @@
-package info.margreiter.oauth2TOM;
+package info.margreiter.oauth2WithJsonSecrets;
 
 /*
  * Copyright (c) 2011 Google Inc.
