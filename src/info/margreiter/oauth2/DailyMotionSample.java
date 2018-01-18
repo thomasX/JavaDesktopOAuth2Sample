@@ -68,7 +68,7 @@ public class DailyMotionSample {
 //  "email", 
 //  "https://www.googleapis.com/auth/userinfo.email"
 //  "profile",
-
+//dfadsfa
   
   /** Global instance of the HTTP transport. */
   private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
