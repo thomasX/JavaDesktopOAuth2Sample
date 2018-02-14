@@ -43,21 +43,21 @@ public class TokenService {
 	}
 	public  void printResponse(HttpResponse httpRequest) throws IOException {
 	        HttpHeaders headers = httpRequest.getHeaders();
-	        System.out.println("ResponseHeaders: " + headers.toString());
-	       System.out.println(httpRequest.getContentEncoding());
-	       System.out.println(httpRequest.getContentType());
+//	        System.out.println("ResponseHeaders: " + headers.toString());
+//	       System.out.println(httpRequest.getContentEncoding());
+//	       System.out.println(httpRequest.getContentType());
 //	       System.out.println(httpRequest.getContent());
 	       
 //	       IOUtils.toString(httpRequest.getContent(), "UTF-8");
 	       
 	       String jsonString = IOUtils.toString(httpRequest.getContent());
-	       System.out.println("jsionString" + jsonString);
+//	       System.out.println("jsionString" + jsonString);
 	       JsonReader dtoReader = new JsonReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)));
 	       JsonObject json = (JsonObject) dtoReader.readObject();
 	       
-	       System.out.println(" soooooooo: " + httpRequest.getContent());
+//	       System.out.println(" soooooooo: " + httpRequest.getContent());
 		    System.out.println("UI:             "+json.get("email"));
-		    System.out.println(dtoReader);
+//		    System.out.println(dtoReader);
 	}
 	public  String getEmailAddress(HttpResponse httpRequest) throws IOException {
 		String jsonString = IOUtils.toString(httpRequest.getContent());

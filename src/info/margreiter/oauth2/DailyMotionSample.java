@@ -52,7 +52,7 @@ public class DailyMotionSample {
 
   /** Directory to store user credentials. */
   private static final java.io.File DATA_STORE_DIR =
-      new java.io.File(System.getProperty("user.home"), ".store/dailymotion_sample");
+      new java.io.File(System.getProperty("user.home"), ".store/ferps_fff");
 
   /**
    * Global instance of the {@link DataStoreFactory}. The best practice is to make it a single
@@ -63,8 +63,8 @@ public class DailyMotionSample {
   /** OAuth 2 scope. */
 //  private static final String SCOPE = "read";
 //  private static final String SCOPE = "read";
-  private static final String[] SCOPE = new String[]{"openid",
-		  };
+//  private static final String[] SCOPE = new String[]{"openid","https://www.googleapis.com/auth/userinfo.email",};
+  private static final String[] SCOPE = new String[]{"profile","email","openid",};
 //  "email", 
 //  "https://www.googleapis.com/auth/userinfo.email"
 //  "profile",
@@ -112,74 +112,17 @@ public class DailyMotionSample {
 	    HttpRequest request = requestFactory.buildGetRequest(url);
 	    HttpResponse response = request.execute();
 	    
-	    System.out.println("und iatz ? " + response.getStatusCode());
-	    System.out.println("TOKEN-REQUEST:");
-	    new TokenService().getToken(request);
+//	    System.out.println("und iatz ? " + response.getStatusCode());
+//	    System.out.println("TOKEN-REQUEST:");
+	    String tk = new TokenService().getToken(request);
 	    
 	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
 	    HttpRequest idRequest = requestFactory.buildGetRequest(userInfo);
 	    HttpResponse idResponse = idRequest.execute();
 	    System.out.println("ID-REQUEST:");
-//	    new TokenService().getToken(idRequest);
 	    new TokenService().printResponse(idResponse);
-	  
-	    
-	    
-	    
-//	    new TokenService().printResponse(response);
-//	    VideoFeed videoFeed = request.execute().parseAs(VideoFeed.class);
-//	    if (videoFeed.list.isEmpty()) {
-//	      System.out.println("No favorite videos found.");
-//	    } else {
-//	      if (videoFeed.hasMore) {
-//	        System.out.print("First ");
-//	      }
-//	      System.out.println(videoFeed.list.size() + " favorite videos found:");
-//	      for (Video video : videoFeed.list) {
-//	        System.out.println();
-//	        System.out.println("-----------------------------------------------");
-//	        System.out.println("ID: " + video.id);
-//	        System.out.println("Title: " + video.title);
-//	        System.out.println("Tags: " + video.tags);
-//	        System.out.println("URL: " + video.url);
-//	      }
 	  System.out.println("alles perfekt !");
-	  
-	  
-//	    UserInfoURL userInfo = new  UserInfoURL("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
-//	    HttpRequest idRequest = requestFactory.buildGetRequest(userInfo);
-//	    HttpResponse idResponse = idRequest.execute();
-//	    System.out.println("ID-REQUEST:");
-//	    new TokenService().getToken(idRequest);
-//	    new TokenService().printResponse(idResponse);
-//	    System.out.println(idResponse);
-
   }
-  private static void run2(HttpRequestFactory requestFactory) throws IOException {
-	  
-    DailyMotionUrl url = new DailyMotionUrl("https://api.dailymotion.com/videos/favorites");
-    url.setFields("id,tags,title,url");
-
-    HttpRequest request = requestFactory.buildGetRequest(url);
-    VideoFeed videoFeed = request.execute().parseAs(VideoFeed.class);
-    if (videoFeed.list.isEmpty()) {
-      System.out.println("No favorite videos found.");
-    } else {
-      if (videoFeed.hasMore) {
-        System.out.print("First ");
-      }
-      System.out.println(videoFeed.list.size() + " favorite videos found:");
-      for (Video video : videoFeed.list) {
-        System.out.println();
-        System.out.println("-----------------------------------------------");
-        System.out.println("ID: " + video.id);
-        System.out.println("Title: " + video.title);
-        System.out.println("Tags: " + video.tags);
-        System.out.println("URL: " + video.url);
-      }
-    }
-  }
-
   public static void main(String[] args) {
     try {
       DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
